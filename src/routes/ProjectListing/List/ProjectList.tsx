@@ -1,18 +1,21 @@
-import React, { Component } from 'react'
+import React, { JSXElementConstructor } from 'react'
 import ProjectItem from '../../../components/ProjectItem/ProjectItem';
+import { connect } from 'react-redux';
+import { Project } from '../../../entities/Project';
 
-class ProjectList extends Component {
-	render() {
-		return (
-			<div>
-				<ProjectItem name="Newsletter Joiner" description="Junta todas as newsletters em um lugar só" />
-				<ProjectItem name="Newsletter Joiner" description="Junta todas as newsletters em um lugar só" />
-				<ProjectItem name="Newsletter Joiner" description="Junta todas as newsletters em um lugar só" />
-				<ProjectItem name="Newsletter Joiner" description="Junta todas as newsletters em um lugar só" />
-				<ProjectItem name="Newsletter Joiner" description="Junta todas as newsletters em um lugar só" />
-			</div>
-		)
-	}
-}
+type Props = { projects: Project[] }
 
-export default ProjectList
+const ProjectList: JSXElementConstructor<Props> = ({
+	projects,
+}) =>
+	<div>
+		{projects.map(project =>
+			<ProjectItem key={project.id} {...project} />
+		)}
+	</div>
+
+const mapStateToProps = (state: { projects: Project[] }) => ({
+	projects: state.projects,
+})
+
+export default connect(mapStateToProps)(ProjectList)
