@@ -13,6 +13,7 @@ type Props = RouteComponentProps & MappedProps
 
 class ProjectForm extends Component<Props> {
 	state = {
+		isEdit: false,
 		project: Project.parse()
 	}
 
@@ -24,7 +25,7 @@ class ProjectForm extends Component<Props> {
 		const project = list().find(project => project.id === id)
 
 		if (project)
-			this.setState({ project })
+			this.setState({ isEdit: true, project })
 
 		const unsubscribe = this.props.history.listen(() => {
 			this.setState({ project: Project.parse() })
@@ -62,7 +63,7 @@ class ProjectForm extends Component<Props> {
 					<Input name="title" label="Project Name" type="text" onChange={this.handleInputChange} value={this.state.project.title} />
 					<Input name="description" label="Project Description" type="textarea" onChange={this.handleInputChange} value={this.state.project.description} />
 					<Button type="submit" btnType="success">
-						CREATE
+						{this.state.isEdit ? 'Edit' : 'Create'}
 					</Button>
 				</form>
 			</Card>
