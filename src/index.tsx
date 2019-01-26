@@ -7,11 +7,9 @@ import { HashRouter } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import store from './store/store'
 
-const basename = process.env.NODE_ENV === 'production' ? '/project-list' : '/'
-
 const app =
 	<Provider store={store}>
-		<HashRouter basename={basename}>
+		<HashRouter>
 			<App />
 		</HashRouter>
 	</Provider>
