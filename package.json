@@ -2,6 +2,7 @@
 	"name": "project-list",
 	"version": "0.1.0",
 	"private": true,
+	"homepage": "http://myname.github.io/project-list",
 	"dependencies": {
 		"@types/jest": "23.3.13",
 		"@types/node": "10.12.18",
