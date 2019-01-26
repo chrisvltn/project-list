@@ -7,6 +7,8 @@ import { Project } from './entities/Project';
 import { add } from './store/actions';
 import { list } from './services/ProjectService';
 import Navigation from './components/Navigation/Navigation';
+import Header from './components/Header/Header';
+import Footer from './components/Footer/Footer';
 
 type MappedProps = { add: (project: Project[]) => void }
 type Props = RouteComponentProps & MappedProps
@@ -20,18 +22,21 @@ class App extends Component<Props> {
 
 	render() {
 		return (
-			<div className="flex justify-center">
-				<div className="pt1 pb4 ph3 mw6 w-100">
-					<h1 className="f1 lh-title tc">Project List</h1>
+			<div className="flex flex-column justify-between min-vh-100">
+				<Header>
 					<Navigation />
+				</Header>
 
+				<main className="flex-auto self-center pt1 pb4 ph3 mw6 w-100">
 					<Switch>
 						<Route path="/project/create" exact component={ProjectForm} />
 						<Route path="/project/edit" component={ProjectForm} />
 						<Route path="/project/" component={ProjectList} />
 						<Redirect path="/" to="/project" />
 					</Switch>
-				</div>
+				</main>
+
+				<Footer />
 			</div>
 		);
 	}
