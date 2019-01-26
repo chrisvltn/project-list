@@ -36,7 +36,7 @@ class ProjectForm extends Component<Props> {
 		this.setState({
 			project: Project.parse({
 				...this.state.project,
-				[event.target.name]: event.target.value.trim(),
+				[event.target.name]: event.target.value,
 			})
 		})
 	}
