@@ -26,6 +26,7 @@ class App extends Component<Props> {
 
 					<Switch>
 						<Route path="/project/create" exact component={ProjectForm} />
+						<Route path="/project/edit" component={ProjectForm} />
 						<Route path="/project/" component={ProjectList} />
 						<Redirect path="/" to="/project" />
 					</Switch>
