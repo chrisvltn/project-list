@@ -1,10 +1,11 @@
-import { Type as Original, TypeOptions, plainToClass, Transform } from "class-transformer";
+import { Type as Original, plainToClass, Transform, TypeHelpOptions } from "class-transformer";
 import 'reflect-metadata'
 import { TypeHelper } from "../../TypeHelper";
 
-export function Type(typeFunction?: (type?: TypeOptions) => Function) {
-	if (typeFunction) return Original.apply(this, arguments)
-	return function (target, key) {
+export function Type(typeFunction?: (type?: TypeHelpOptions | undefined) => Function) {
+	if (typeFunction) return Original.apply(null, [typeFunction])
+
+	return function (target: any, key: string) {
 		const type = Reflect.getMetadata('design:type', target, key)
 		switch (type) {
 			case Number:
