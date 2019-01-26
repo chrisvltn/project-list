@@ -14,7 +14,22 @@ type Props = RouteComponentProps & MappedProps
 class ProjectForm extends Component<Props> {
 	state = {
 		project: Project.parse()
-		}
+	}
+
+	componentWillMount() {
+		if (!this.props.location.search) return
+
+		const query = new URLSearchParams(this.props.location.search)
+		const id = parseInt(query.get('id') || '')
+		const project = list().find(project => project.id === id)
+
+		if (project)
+			this.setState({ project })
+
+		const unsubscribe = this.props.history.listen(() => {
+			this.setState({ project: Project.parse() })
+			unsubscribe()
+		})
 	}
 
 	handleInputChange = (event: ChangeEvent<HTMLInputElement & HTMLTextAreaElement>) => {
@@ -22,7 +37,7 @@ class ProjectForm extends Component<Props> {
 			project: Project.parse({
 				...this.state.project,
 				[event.target.name]: event.target.value.trim(),
-		})
+			})
 		})
 	}
 
@@ -31,6 +46,7 @@ class ProjectForm extends Component<Props> {
 
 		this.props.save(Project.parse({
 			...this.state.project,
+			modified: new Date(),
 		}))
 		this.props.history.push('/projects')
 
