@@ -7,14 +7,25 @@ import { add, edit } from '../../../store/actions';
 import { withRouter, RouteComponentProps } from 'react-router';
 import { save, list } from '../../../services/ProjectService';
 import Button from '../../../components/UI/Button/Button';
+import * as V from '../../../helpers/Validators'
+import { FormControl, Control } from '../../../helpers/FormControl';
 
 type MappedProps = { save: (project: Project) => void }
 type Props = RouteComponentProps & MappedProps
+type State = {
+	project: Project | null
+	isEdit: boolean
+	formControls: Control[]
+}
 
-class ProjectForm extends Component<Props> {
+class ProjectForm extends Component<Props, State> {
 	state = {
+		project: null,
 		isEdit: false,
-		project: Project.parse()
+		formControls: [
+			FormControl.create('title', 'Project Name', [V.required]),
+			FormControl.create('description', 'Project Description', [V.required], 'textarea'),
+		]
 	}
 
 	componentWillMount() {
@@ -25,7 +36,24 @@ class ProjectForm extends Component<Props> {
 		const project = list().find(project => project.id === id)
 
 		if (project)
-			this.setState({ isEdit: true, project })
+			this.setState({
+				project,
+				isEdit: true,
+				formControls: [
+					{
+						...this.state.formControls[0],
+						value: project.title,
+						touched: true,
+						valid: !FormControl.validate(project.title, this.state.formControls[0].validators).length,
+					},
+					{
+						...this.state.formControls[1],
+						value: project.description,
+						touched: true,
+						valid: !FormControl.validate(project.description, this.state.formControls[1].validators).length,
+					},
+				]
+			})
 
 		const unsubscribe = this.props.history.listen(() => {
 			this.setState({ project: Project.parse() })
@@ -34,11 +62,18 @@ class ProjectForm extends Component<Props> {
 	}
 
 	handleInputChange = (event: ChangeEvent<HTMLInputElement & HTMLTextAreaElement>) => {
+		const control = this.state.formControls.find(control => control.props.name == event.target.name) as Control
+		const index = this.state.formControls.indexOf(control)
+		const controls = [...this.state.formControls]
+		controls[index] = {
+			...control,
+			value: event.target.value,
+			touched: true,
+			valid: !FormControl.validate(event.target.value, control.validators).length,
+		}
+
 		this.setState({
-			project: Project.parse({
-				...this.state.project,
-				[event.target.name]: event.target.value,
-			})
+			formControls: controls,
 		})
 	}
 
@@ -46,8 +81,9 @@ class ProjectForm extends Component<Props> {
 		event.preventDefault()
 
 		this.props.save(Project.parse({
-			...this.state.project,
-			modified: new Date(),
+			...(this.state.project || {}),
+			title: this.state.formControls[0].value,
+			description: this.state.formControls[1].value,
 		}))
 		this.props.history.push('/projects')
 
@@ -60,8 +96,10 @@ class ProjectForm extends Component<Props> {
 		return (
 			<Card>
 				<form onSubmit={this.handleSubmit}>
-					<Input name="title" label="Project Name" type="text" onChange={this.handleInputChange} value={this.state.project.title} />
-					<Input name="description" label="Project Description" type="textarea" onChange={this.handleInputChange} value={this.state.project.description} />
+					{this.state.formControls.map(control =>
+						<Input {...FormControl.toProps(control)} onChange={this.handleInputChange} />
+					)}
+
 					<Button type="submit" btnType="success">
 						{this.state.isEdit ? 'Edit' : 'Create'}
 					</Button>
