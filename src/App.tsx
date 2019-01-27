@@ -1,15 +1,21 @@
+/* React imports */
 import React, { Component } from 'react';
 import { Switch, Route, Redirect, withRouter, RouteComponentProps } from 'react-router-dom';
-import ProjectForm from './routes/ProjectListing/Form/ProjectForm';
-import ProjectList from './routes/ProjectListing/List/ProjectList';
 import { connect, MapDispatchToPropsFunction } from 'react-redux';
-import { Project } from './entities/Project';
-import { add } from './store/actions';
-import { list } from './services/ProjectService';
+
+/* Components */
 import Navigation from './components/Navigation/Navigation';
 import Header from './components/Header/Header';
+import ProjectForm from './routes/ProjectListing/Form/ProjectForm';
+import ProjectList from './routes/ProjectListing/List/ProjectList';
 import Footer from './components/Footer/Footer';
 
+/* Services */
+import { add } from './store/actions';
+import { list } from './services/ProjectService';
+
+/* Typing */
+import { Project } from './entities/Project';
 type MappedProps = { add: (project: Project[]) => void }
 type Props = RouteComponentProps & MappedProps
 

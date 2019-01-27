@@ -1,12 +1,18 @@
+/* React imports */
 import React, { JSXElementConstructor, HTMLProps } from 'react'
-import Card from '../UI/Card/Card';
-import { Project } from '../../entities/Project';
-import Button from '../UI/Button/Button';
-import { connect, MapDispatchToPropsFunction } from 'react-redux';
-import { remove } from '../../store/actions';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
+import { connect, MapDispatchToPropsFunction } from 'react-redux';
+
+/* Components */
+import Card from '../UI/Card/Card';
+import Button from '../UI/Button/Button';
+
+/* Services */
+import { remove } from '../../store/actions';
 import * as service from '../../services/ProjectService'
 
+/* Typing */
+import { Project } from '../../entities/Project';
 type DispatchProps = { remove: () => void }
 type Props = Project & RouteComponentProps & DispatchProps & {
 	onClick?: HTMLProps<HTMLElement>['onClick']

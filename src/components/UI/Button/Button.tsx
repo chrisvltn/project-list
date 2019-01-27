@@ -1,5 +1,7 @@
+/* React imports */
 import React, { HTMLProps, JSXElementConstructor } from 'react'
 
+/* Typing */
 type Props = HTMLProps<HTMLButtonElement> & {
 	btnType: 'success' | 'danger'
 	small?: boolean

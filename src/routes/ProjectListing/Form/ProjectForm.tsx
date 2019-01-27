@@ -1,15 +1,23 @@
+/* React imports */
 import React, { Component, ChangeEvent } from 'react'
+import { connect, MapDispatchToPropsFunction } from 'react-redux';
+import { withRouter, RouteComponentProps } from 'react-router';
+
+/* Components */
 import Card from '../../../components/UI/Card/Card';
 import Input from '../../../components/UI/Input/Input';
-import { Project } from '../../../entities/Project';
-import { connect, MapDispatchToPropsFunction } from 'react-redux';
-import { add, edit } from '../../../store/actions';
-import { withRouter, RouteComponentProps } from 'react-router';
-import { save, list } from '../../../services/ProjectService';
 import Button from '../../../components/UI/Button/Button';
-import * as V from '../../../helpers/Validators'
-import { FormControl, Control } from '../../../helpers/FormControl';
 
+/* Services */
+import { Project } from '../../../entities/Project';
+import { add, edit } from '../../../store/actions';
+import { save, list } from '../../../services/ProjectService';
+
+/* Helpers */
+import { FormControl, Control } from '../../../helpers/FormControl';
+import * as V from '../../../helpers/Validators'
+
+/* Typing */
 type MappedProps = { save: (project: Project) => void }
 type Props = RouteComponentProps & MappedProps
 type State = {

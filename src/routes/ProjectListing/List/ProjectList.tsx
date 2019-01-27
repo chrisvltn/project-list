@@ -1,8 +1,12 @@
+/* React imports */
 import React, { JSXElementConstructor } from 'react'
-import ProjectItem from '../../../components/ProjectItem/ProjectItem';
 import { connect } from 'react-redux';
-import { Project } from '../../../entities/Project';
 
+/* Components */
+import ProjectItem from '../../../components/ProjectItem/ProjectItem';
+
+/* Typing */
+import { Project } from '../../../entities/Project';
 type Props = { projects: Project[] }
 
 const ProjectList: JSXElementConstructor<Props> = ({
