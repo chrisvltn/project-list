@@ -1,22 +1,33 @@
-import React, { JSXElementConstructor, HTMLProps } from 'react'
+import React, { JSXElementConstructor, HTMLProps, ChangeEvent } from 'react'
 
 import styles from './Input.module.scss'
 
 const Input: JSXElementConstructor<Props> = ({
-	className = '',
+	className,
 	label,
 	type,
+	valid,
+	touched,
 	...props
 }) => {
-	const inputStyle = 'db w-100 br2 pa3 ba b--silver ' + className
+	let style = ['db w-100 br2 pa3 ba b--silver']
 	let input
+
+	if (className)
+		style.push(className)
+
+	if (touched)
+		if (valid)
+			style.push('b--green')
+		else
+			style.push('b--red')
 
 	switch (type) {
 		case 'textarea':
-			input = <textarea className={inputStyle + ' ' + styles.TextArea} {...props}></textarea>
+			input = <textarea className={style.join(' ') + ' ' + styles.TextArea} {...props}></textarea>
 			break
 		default:
-			input = <input className={inputStyle} type={type} {...props} />
+			input = <input className={style.join(' ')} type={type} {...props} />
 	}
 
 	return (
@@ -30,6 +41,8 @@ const Input: JSXElementConstructor<Props> = ({
 type Props = HTMLProps<HTMLInputElement> & HTMLProps<HTMLTextAreaElement> & {
 	type: string
 	label: string
+	valid: boolean
+	touched: boolean
 }
 
 export default Input
