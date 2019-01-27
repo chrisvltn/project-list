@@ -21,13 +21,15 @@ import * as V from '../../../helpers/Validators'
 type MappedProps = { save: (project: Project) => void }
 type Props = RouteComponentProps & MappedProps
 type State = {
+	isFormValid: boolean
 	project: Project | null
 	isEdit: boolean
 	formControls: Control[]
 }
 
-class ProjectForm extends Component<Props, State> {
+export class ProjectForm extends Component<Props, State> {
 	state = {
+		isFormValid: false,
 		project: null,
 		isEdit: false,
 		formControls: [
@@ -46,6 +48,7 @@ class ProjectForm extends Component<Props, State> {
 		if (project)
 			this.setState({
 				project,
+				isFormValid: true,
 				isEdit: true,
 				formControls: [
 					{
@@ -80,7 +83,10 @@ class ProjectForm extends Component<Props, State> {
 			valid: !FormControl.validate(event.target.value, control.validators).length,
 		}
 
+		const isFormValid = !controls.some(control => !control.valid)
+
 		this.setState({
+			isFormValid,
 			formControls: controls,
 		})
 	}
@@ -105,10 +111,10 @@ class ProjectForm extends Component<Props, State> {
 			<Card>
 				<form onSubmit={this.handleSubmit}>
 					{this.state.formControls.map(control =>
-						<Input {...FormControl.toProps(control)} onChange={this.handleInputChange} />
+						<Input key={control.props.name} {...FormControl.toProps(control)} onChange={this.handleInputChange} />
 					)}
 
-					<Button type="submit" btnType="success">
+					<Button type="submit" btnType="success" disabled={!this.state.isFormValid}>
 						{this.state.isEdit ? 'Edit' : 'Create'}
 					</Button>
 				</form>

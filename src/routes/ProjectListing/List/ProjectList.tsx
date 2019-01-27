@@ -9,7 +9,7 @@ import ProjectItem from '../../../components/ProjectItem/ProjectItem';
 import { Project } from '../../../entities/Project';
 type Props = { projects: Project[] }
 
-const ProjectList: JSXElementConstructor<Props> = ({
+export const ProjectList: JSXElementConstructor<Props> = ({
 	projects,
 }) =>
 	<div>

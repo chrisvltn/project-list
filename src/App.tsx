@@ -19,7 +19,7 @@ import { Project } from './entities/Project';
 type MappedProps = { add: (project: Project[]) => void }
 type Props = RouteComponentProps & MappedProps
 
-class App extends Component<Props> {
+export class App extends Component<Props> {
 	constructor(props: Props) {
 		super(props)
 		const projects = list()
