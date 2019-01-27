@@ -1,6 +1,15 @@
+/* React imports */
 import React, { JSXElementConstructor, HTMLProps, ChangeEvent } from 'react'
 
 import styles from './Input.module.scss'
+
+/* Typing */
+type Props = HTMLProps<HTMLInputElement> & HTMLProps<HTMLTextAreaElement> & {
+	type: string
+	label: string
+	valid: boolean
+	touched: boolean
+}
 
 const Input: JSXElementConstructor<Props> = ({
 	className,
@@ -36,13 +45,6 @@ const Input: JSXElementConstructor<Props> = ({
 			{input}
 		</label>
 	)
-}
-
-type Props = HTMLProps<HTMLInputElement> & HTMLProps<HTMLTextAreaElement> & {
-	type: string
-	label: string
-	valid: boolean
-	touched: boolean
 }
 
 export default Input
